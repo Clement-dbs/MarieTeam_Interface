@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.FlowPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="marieteam.marieteam_v2.Interface">
+
+  <padding>
+    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+  </padding>
+
+  <!-- Sidebar à gauche -->
+  <left>
+    <ScrollPane fitToWidth="true" prefWidth="200.0" prefHeight="500.0">
+      <VBox fx:id="sidebarContainer" spacing="10">
+        <padding>
+          <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+      </VBox>
+    </ScrollPane>
+  </left>
+
+  <!-- Contenu principal au centre -->
+  <center>
+    <VBox spacing="10.0">
+      <Button text="Charger les Bateaux" onAction="#getAllBoats"/>
+      <Button text="Charger les Secteurs" onAction="#getAllSectors"/>
+
+      <ScrollPane fitToWidth="true" prefHeight="500.0">
+        <FlowPane fx:id="bateauxContainer" hgap="20" vgap="20">
+        </FlowPane>
+      </ScrollPane>
+    </VBox>
+  </center>
+
+</BorderPane>
