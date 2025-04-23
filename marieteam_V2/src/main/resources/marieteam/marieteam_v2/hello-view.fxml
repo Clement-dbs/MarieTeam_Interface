@@ -32,9 +32,6 @@
   <!-- Contenu principal au centre -->
   <center>
     <VBox spacing="10.0">
-      <Button text="Charger les Bateaux" onAction="#getAllBoats"/>
-      <Button text="Charger les Secteurs" onAction="#getAllSectors"/>
-
       <ScrollPane fitToWidth="true" prefHeight="500.0">
         <FlowPane fx:id="bateauxContainer" hgap="20" vgap="20">
         </FlowPane>

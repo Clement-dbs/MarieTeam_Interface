@@ -1,15 +1,12 @@
 package marieteam.marieteam_v2;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -31,10 +28,19 @@ public class Interface {
         createBoatElement(controller.getAllBoats());
     }
 
+
     public void getAllSectors(ActionEvent event) {
         createSecteurSection(controller.getAllSecteurs());
     }
 
+    @FXML
+    public void initialize() {
+        getAllSectors(new ActionEvent());
+    }
+    public void getAllBoatsBySecteur(ActionEvent event) {
+        //createSecteurSection(controller.getAllBoatsBySecteur(1));
+        createBoatElement(controller.getAllBoatsBySecteur(1));
+    }
 
     public void createBoatElement(JSONArray boatsArray) {
 
@@ -45,6 +51,7 @@ public class Interface {
         for (Object boat : boatsArray) {
             JSONObject boatObject = (JSONObject) boat;
             String boatName = (String) boatObject.get("nom");
+            String boatNameImage = (String) boatObject.get("nomImage");
             String boatLongueur = (String) boatObject.get("longueur");
             String boatLargeur = (String) boatObject.get("largeur");
 
@@ -60,9 +67,10 @@ public class Interface {
             boatBox.setMinHeight(300);
 
             // Image du bateau (à remplacer par une vraie image si disponible)
-            ImageView boatImage = new ImageView(new Image("file:default-boat.png")); // Chemin de l'image
+            ImageView boatImage = new ImageView(new Image("file:C:\\Users\\cleme\\Desktop\\MarieteamAPI\\src\\main\\resources\\Assets\\BoatsImages\\"+ boatNameImage+".jpg")); // Chemin de l'image
             boatImage.setFitWidth(150);
             boatImage.setFitHeight(100);
+            System.out.println(boatNameImage);
 
             // Labels pour afficher les infos
             Label nameLabel = new Label("Nom : " + boatName);
@@ -74,8 +82,8 @@ public class Interface {
 
             // Événement de clic pour générer un PDF
             boatBox.setOnMouseClicked(event -> {
-                PDFGenerator pdfGenerator = new PDFGenerator(boatName, boatLongueur, boatLargeur, boatEquipements);
-                pdfGenerator.PDFGenerator(boatName, boatLongueur, boatLargeur, boatEquipements);
+                PDFGenerator pdfGenerator = new PDFGenerator(boatNameImage,boatName, boatLongueur, boatLargeur, boatEquipements);
+                pdfGenerator.generatePDF(boatNameImage,boatName, boatLongueur, boatLargeur, boatEquipements);
             });
 
             bateauxContainer.getChildren().add(boatBox);
@@ -83,7 +91,7 @@ public class Interface {
     }
 
     public void createSecteurSection(JSONArray secteurArray) {
-        // sidebarContainer.getChildren().clear();
+         sidebarContainer.getChildren().clear();
 
         // Espacement entre les éléments
         sidebarContainer.setMinWidth(200);
@@ -117,9 +125,12 @@ public class Interface {
             // Ajouter le label dans la boîte
             secteurBox.getChildren().add(secteurLabel);
 
+            Long secteurId = (Long) secteurObject.get("id");
+
             // Événement de clic pour afficher les bateaux du secteur (filtrage possible ici)
             secteurBox.setOnMouseClicked(event -> {
                 System.out.println("Secteur sélectionné : " + secteurNom);
+                createBoatElement(controller.getAllBoatsBySecteur(secteurId.intValue()));
             });
 
             sidebarContainer.getChildren().add(secteurBox);
